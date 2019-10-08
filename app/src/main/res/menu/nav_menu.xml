@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_friends"
-            android:title="朋友"/>
+            android:id="@+id/nav_main"
+            android:title="主页"/>
         <item
             android:id="@+id/nav_cal"
             android:title="计算"/>
         <item
-            android:id="@+id/nav_result"
-            android:title="结果"/>
+            android:id="@+id/nav_data"
+            android:title="当日数据"/>
+
+        <item
+            android:id="@+id/nav_history_data"
+            android:title="历史数据"/>
     </group>
 
 </menu>

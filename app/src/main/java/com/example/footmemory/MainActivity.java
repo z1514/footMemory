@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -27,16 +31,37 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();
+        replaceFragment(new MainContentFragment());
         if(actionBar!=null)
         {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
-        navView.setCheckedItem(R.id.nav_friends);
+        navView.setCheckedItem(R.id.nav_main);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                mDrawerLayout.closeDrawers();
+                switch(menuItem.getItemId())
+                {
+                    case R.id.nav_main:
+                        replaceFragment(new MainContentFragment());
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_cal:
+                        replaceFragment(new AddListFragment());
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_data:
+                        replaceFragment(new TodayDataFragment());
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_history_data:
+                        replaceFragment(new HistoryFragment());
+                        mDrawerLayout.closeDrawers();
+                        break;
+                        default:
+
+                }
                 return true;
             }
         });
@@ -61,5 +86,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_fragment,fragment);
+        transaction.commit();
     }
 }
