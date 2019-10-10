@@ -4,6 +4,12 @@ public class TraceItem {
     private String name;
     private double amount;
 
+    public TraceItem(String name,double amount)
+    {
+        this.name = name;
+        this.amount = amount;
+    }
+
     public String getName() {
         return name;
     }
