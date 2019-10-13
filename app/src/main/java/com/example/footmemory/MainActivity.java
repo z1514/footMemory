@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.footmemory.util.TraceItem;
 import com.google.android.material.navigation.NavigationView;
+
+import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();
         replaceFragment(new MainContentFragment());
+        //Connector.getDatabase();
         if(actionBar!=null)
         {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -102,4 +106,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_fragment,fragment);
         transaction.commit();
     }
+
+
 }
