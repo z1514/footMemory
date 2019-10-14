@@ -38,8 +38,12 @@ public class MainContentFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initList();
-                adapter.notifyItemInserted(traceItemList.size()-1);
+                //initList();
+                //adapter.notifyItemInserted(traceItemList.size()-1);
+                //Thread.currentThread().sleep(1000);
+                MainActivity mainActivity=(MainActivity)getActivity();
+                mainActivity.replaceFragment(new AddListFragment());
+
             }
         });
         return view;
