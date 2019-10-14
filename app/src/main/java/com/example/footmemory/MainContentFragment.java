@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.footmemory.R;
+import com.example.footmemory.db.Item;
+import com.example.footmemory.db.MyItem;
 import com.example.footmemory.util.TraceItem;
 import com.example.footmemory.util.TraceItemAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainContentFragment extends Fragment {
@@ -41,6 +44,16 @@ public class MainContentFragment extends Fragment {
                 //initList();
                 //adapter.notifyItemInserted(traceItemList.size()-1);
                 //Thread.currentThread().sleep(1000);
+                MyItem item = new MyItem();
+                item.setAmount(100);
+                item.setName("米饭");
+                Date date = new Date();
+                item.setTime(date.getTime());
+                item.save();
+                Item item1 = new Item();
+                item1.setAmount(100);
+                item1.setItemName("米饭");
+                item1.save();
                 MainActivity mainActivity=(MainActivity)getActivity();
                 mainActivity.replaceFragment(new AddListFragment());
 
@@ -57,6 +70,7 @@ public class MainContentFragment extends Fragment {
         traceItemList.add(d2);
         TraceItem d3 = new TraceItem("跑步",250);
         traceItemList.add(d3);
+
 
     }
 }

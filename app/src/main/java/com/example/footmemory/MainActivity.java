@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         final FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
         replaceFragment(new MainContentFragment());
-        //Connector.getDatabase();
+        Connector.getDatabase();
         if(actionBar!=null)
         {
             actionBar.setDisplayHomeAsUpEnabled(true);
