@@ -26,6 +26,7 @@ import java.util.List;
 
 public class MainContentFragment extends Fragment {
     private List<TraceItem> traceItemList = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +71,5 @@ public class MainContentFragment extends Fragment {
         traceItemList.add(d2);
         TraceItem d3 = new TraceItem("跑步",250);
         traceItemList.add(d3);
-
-
     }
 }
