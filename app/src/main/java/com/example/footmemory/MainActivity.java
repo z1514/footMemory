@@ -31,6 +31,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    public NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
+        navView = (NavigationView)findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();
         final FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
         replaceFragment(new MainContentFragment());
@@ -107,9 +108,16 @@ public class MainActivity extends AppCompatActivity {
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(fragment instanceof AddListFragment)
+        {transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);}
+        else
+        {
+            transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+        }
         transaction.replace(R.id.main_fragment,fragment);
         transaction.commit();
     }
+
 
 
 }
