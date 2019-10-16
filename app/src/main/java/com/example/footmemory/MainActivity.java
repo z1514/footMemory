@@ -10,14 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.footmemory.util.TraceItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    public NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView)findViewById(R.id.nav_view);
+        navView = (NavigationView)findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();
+        final FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
         replaceFragment(new MainContentFragment());
+        Connector.getDatabase();
         if(actionBar!=null)
         {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.nav_cal:
+                        //floatingActionButton.setVisibility(View.GONE);
                         replaceFragment(new AddListFragment());
                         mDrawerLayout.closeDrawers();
                         break;
@@ -95,11 +104,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void replaceFragment(Fragment fragment)
+    public void replaceFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(fragment instanceof AddListFragment)
+        {transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);}
+        else
+        {
+            transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+        }
         transaction.replace(R.id.main_fragment,fragment);
         transaction.commit();
     }
+
+
+
 }

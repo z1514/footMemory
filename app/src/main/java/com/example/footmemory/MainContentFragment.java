@@ -1,11 +1,14 @@
 package com.example.footmemory;
 
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,15 +17,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.footmemory.R;
+import com.example.footmemory.db.Item;
+import com.example.footmemory.db.MyItem;
 import com.example.footmemory.util.TraceItem;
 import com.example.footmemory.util.TraceItemAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainContentFragment extends Fragment {
     private List<TraceItem> traceItemList = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,8 +47,24 @@ public class MainContentFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initList();
-                adapter.notifyItemInserted(traceItemList.size()-1);
+                //initList();
+                //adapter.notifyItemInserted(traceItemList.size()-1);
+                //Thread.currentThread().sleep(1000);
+//                MyItem item = new MyItem();
+//                item.setAmount(100);
+//                item.setName("米饭");
+//                Date date = new Date();
+//                item.setTime(date.getTime());
+//                item.save();
+//                Item item1 = new Item();
+//                item1.setAmount(100);
+//                item1.setItemName("米饭");
+//                item1.save();
+
+                MainActivity mainActivity=(MainActivity)getActivity();
+                mainActivity.replaceFragment(new AddListFragment());
+                mainActivity.navView.setCheckedItem(R.id.nav_cal);
+
             }
         });
         return view;
@@ -47,12 +72,23 @@ public class MainContentFragment extends Fragment {
 
     private void initList()
     {
-        TraceItem d1 = new TraceItem("米饭",200);
-        traceItemList.add(d1);
-        TraceItem d2 = new TraceItem("意大利面",1000);
-        traceItemList.add(d2);
-        TraceItem d3 = new TraceItem("跑步",250);
-        traceItemList.add(d3);
+        //获取时间
+        long date = getDate();
+        List<MyItem> list = LitePal.where("time>=? and time <?",""+date,""+date+24 * 3600 * 1000).find(MyItem.class);
+        for (MyItem item:list)
+        {
+            traceItemList.add(new TraceItem(item.getName(),item.getAmount()));
+        }
+
+    }
+
+    private long getDate()
+    {
+        Date date = new Date();
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        return date.getTime();
 
     }
 }

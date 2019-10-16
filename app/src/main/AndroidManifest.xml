@@ -3,6 +3,7 @@
     package="com.example.footmemory">
 
     <application
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="足迹精灵"
