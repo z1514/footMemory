@@ -3,11 +3,13 @@ package com.example.footmemory.util;
 public class TraceItem {
     private String name;
     private double amount;
+    private long time;
 
-    public TraceItem(String name,double amount)
+    public TraceItem(String name,double amount,long time)
     {
         this.name = name;
         this.amount = amount;
+        this.time = time;
     }
 
     public String getName() {
@@ -26,6 +28,14 @@ public class TraceItem {
         this.amount = amount;
     }
 
-    private double value;
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    //private double value;
 
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,25 +26,32 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.litepal.LitePal;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainContentFragment extends Fragment {
+public class MainContentFragment extends Fragment{
     private List<TraceItem> traceItemList = new ArrayList<>();
+    private double d = 0.0;
+    private TextView hint;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_content_fragment,container,false);
-
+        hint = (TextView)view.findViewById(R.id.hint_view);
         initList();
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.main_recycler_view);
         FloatingActionButton floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         final TraceItemAdapter adapter = new TraceItemAdapter(traceItemList);
         recyclerView.setAdapter(adapter);
+        DecimalFormat df = new DecimalFormat("0.00");
+        TextView fullAmount = (TextView)view.findViewById(R.id.full_amount);
+        fullAmount.setText(df.format(d)+"kg");
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +68,6 @@ public class MainContentFragment extends Fragment {
 //                item1.setAmount(100);
 //                item1.setItemName("米饭");
 //                item1.save();
-
                 MainActivity mainActivity=(MainActivity)getActivity();
                 mainActivity.replaceFragment(new AddListFragment());
                 mainActivity.navView.setCheckedItem(R.id.nav_cal);
@@ -75,10 +82,20 @@ public class MainContentFragment extends Fragment {
         //获取时间
         long date = getDate();
         List<MyItem> list = LitePal.where("time>=? and time <?",""+date,""+date+24 * 3600 * 1000).find(MyItem.class);
+        if (list.size()!=0)
+        {
+            hint.setVisibility(View.GONE);
+        }
         for (MyItem item:list)
         {
-            traceItemList.add(new TraceItem(item.getName(),item.getAmount()));
+            traceItemList.add(new TraceItem(item.getName(),item.getAmount(),item.getTime()));
         }
+
+        for(TraceItem item:traceItemList)
+        {
+            d +=item.getAmount();
+        }
+
 
     }
 
@@ -91,4 +108,5 @@ public class MainContentFragment extends Fragment {
         return date.getTime();
 
     }
+
 }

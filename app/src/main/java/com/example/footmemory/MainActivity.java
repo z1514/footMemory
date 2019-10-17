@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.footmemory.util.TraceItem;
+import com.githang.statusbar.StatusBarCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(android.R.color.white));
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        toolbar.setTitle("足迹精灵");
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navView = (NavigationView)findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();

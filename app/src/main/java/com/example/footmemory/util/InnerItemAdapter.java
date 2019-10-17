@@ -120,7 +120,8 @@ public class InnerItemAdapter extends RecyclerView.Adapter<InnerItemAdapter.View
     public void onBindViewHolder(@NonNull InnerItemAdapter.ViewHolder holder, int position) {
         InnerItem innerItem = mInnerList.get(position);
         holder.innerName.setText(innerItem.getName());
-        holder.innerBase.setText(innerItem.getBase()+"kg");
+        holder.innerBase.setText("碳足迹"+innerItem.getBase()+"kg/每单位");
+
 
     }
 
