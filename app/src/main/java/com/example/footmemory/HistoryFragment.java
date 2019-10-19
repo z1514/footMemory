@@ -10,11 +10,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import java.util.ArrayList;
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.Legend.LegendPosition;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -27,12 +33,16 @@ import android.widget.Button;
 import static android.R.attr.x;
 
 public class HistoryFragment extends Fragment {
+    BarChart mbarChart;
+    LineChart chart;
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_fragment, container, false);
-        LineChart chart = (LineChart) view.findViewById(R.id.chart);
+         mbarChart = (BarChart)view.findViewById(R.id.mBarChart);
+        draw();
+        chart = (LineChart) view.findViewById(R.id.chart);
         // 制作7个数据点（沿x坐标轴）
-        int count = 7;
+        int count = 30;
         ArrayList<Float> cdata = new ArrayList<Float>();
         ArrayList<Float> wdata = new ArrayList<Float>();
         for (int i = 0; i < count; i++) {
@@ -44,10 +54,48 @@ public class HistoryFragment extends Fragment {
             float val = (float) (Math.random() * 10+200);
             wdata.add(val);
         }
-        LineData lineData = makeLineData(7, cdata, wdata, Color.RED, Color.GREEN);//设置碳足迹
+        LineData lineData = makeLineData(30, cdata, Color.RED, Color.GREEN);//设置碳足迹
        setChartStyle(chart, lineData, Color.WHITE);
         return view;
     }//end function
+//设置柱状图的样式和数据
+        public void draw(){
+        //设置barchart的样式
+            //设置描述
+            mbarChart.setDescription("本月足迹柱状图");
+            //关闭柱状图的阴影
+            mbarChart.setDrawBarShadow(false);
+            //设置柱状图的数据在上方显示
+            mbarChart.setDrawValueAboveBar(true);
+            //设置X轴的位置，默认在上方
+            XAxis xAxis = mbarChart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            //不显示纵向分割线
+            xAxis.setDrawGridLines(false);
+            //隐藏右边坐标轴
+            mbarChart.getAxisRight().setEnabled(false);
+
+            //模拟数据
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        for(int i=0;i<7;i++)
+        {
+            float val = (float) (Math.random() * 10+50);
+            BarEntry entry = new BarEntry(val,i);
+            yVals1.add(entry);
+        }
+
+        BarDataSet barDataSet =new BarDataSet(yVals1, "用户本周碳排放量");
+        barDataSet.setBarSpacePercent(50f);
+        barDataSet.setColor(Color.BLUE);
+        ArrayList<String> x =new ArrayList<String>(7);
+        for(int i=0;i<7;i++)
+        {
+            x.add("周"+i);
+        }
+        BarData barData = new BarData(x,barDataSet);
+
+        mbarChart.setData(barData);
+    }
 
     // 设置chart显示的样式
     private void setChartStyle(LineChart mLineChart, LineData lineData, int color) {
@@ -78,12 +126,11 @@ public class HistoryFragment extends Fragment {
         mLegend.setFormSize(15.0f);// 字体
         mLegend.setTextColor(Color.BLUE);// 颜色
     }
-    private LineData makeLineData(int count,ArrayList<Float> cdata,ArrayList<Float> wdata,int ccolor,int wcolor) {
+    private LineData makeLineData(int count,ArrayList<Float> cdata,int ccolor,int wcolor) {
         ArrayList<String> x = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
-            x.add("周" + (i+1));
+            x.add(  (i+1)+"日");
         }
-
         // y轴的数据
         ArrayList<Entry> yc = new ArrayList<Entry>();
         for (int i = 0; i < count; i++) {
@@ -91,45 +138,26 @@ public class HistoryFragment extends Fragment {
             Entry entry = new Entry(val, i);
             yc.add(entry);
         }
-        ArrayList<Entry> yw = new ArrayList<Entry>();
-        for (int i = 0; i < count; i++) {
-            float val=wdata.get(i);
-            Entry entry = new Entry(val, i);
-            yw.add(entry);
-        }
         // y轴数据集
         LineDataSet cLineDataSet = new LineDataSet(yc, "用户碳排放量");
-        LineDataSet wLineDataSet = new LineDataSet(yw, "用户水排放量");
         // 用y轴的集合来设置参数
-        // 线宽
-        cLineDataSet.setLineWidth(3.0f);
-        wLineDataSet.setLineWidth(3.0f);
-        // 显示的圆形大小
-        cLineDataSet.setCircleSize(5.0f);
-        wLineDataSet.setCircleSize(5.0f);
-        // 折线的颜色
-        cLineDataSet.setColor(ccolor);
-        cLineDataSet.setColor(Color.RED);
-        // 圆球的颜色
-        cLineDataSet.setCircleColor(Color.GREEN);
-        wLineDataSet.setCircleColor(Color.GREEN);
-        // 设置mLineDataSet.setDrawHighlightIndicators(false)后，
-        // Highlight的十字交叉的纵横线将不会显示，
-        // 同时，mLineDataSet.setHighLightColor(Color.CYAN)失效。
-        cLineDataSet.setDrawHighlightIndicators(true);
-        wLineDataSet.setDrawHighlightIndicators(true);
-        // 按击后，十字交叉线的颜色
-        cLineDataSet.setHighLightColor(Color.CYAN);
-        wLineDataSet.setHighLightColor(Color.CYAN);
-        // 设置这项上显示的数据点的字体大小。
-        cLineDataSet.setValueTextSize(10.0f);
-        wLineDataSet.setValueTextSize(10.0f);
-        // 填充折线上数据点、圆球里面包裹的中心空白处的颜色。
-        cLineDataSet.setCircleColorHole(Color.YELLOW);
-        wLineDataSet.setCircleColorHole(Color.YELLOW);
+       //设置线的颜色
+        cLineDataSet.setColor(Color.BLUE);
+        //设置数据点圆形的颜色
+        cLineDataSet.setCircleColor(Color.BLUE);
+        //设置填充圆形中间的颜色
+        cLineDataSet.setCircleColorHole(Color.BLUE);
+        //设置折线的宽度
+        cLineDataSet.setLineWidth(1f);
+        //设置折线点圆点半径
+        cLineDataSet.setCircleSize(4f);
+        //设置一页最大显示个数为7，超出部分就滑动
+        float ratio = (float)count/(float)6;
+        chart.zoom(ratio,1f,0,0);
+        //设置从xy轴出来的动画
+        chart.animateXY(1500,1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
         ArrayList<LineDataSet> mLineDataSets = new ArrayList<LineDataSet>();
         mLineDataSets.add(cLineDataSet);
-        mLineDataSets.add(wLineDataSet);
         LineData mLineData = new LineData(x, mLineDataSets);
         return mLineData;
     }//end function makeData
