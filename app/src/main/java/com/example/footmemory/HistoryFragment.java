@@ -16,7 +16,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
-import com.github.mikephil.charting.components.Legend.LegendPosition;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -56,6 +55,7 @@ public class HistoryFragment extends Fragment {
         }
         LineData lineData = makeLineData(30, cdata, Color.RED, Color.GREEN);//设置碳足迹
        setChartStyle(chart, lineData, Color.WHITE);
+
         return view;
     }//end function
 //设置柱状图的样式和数据

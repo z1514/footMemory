@@ -12,7 +12,8 @@
         <item
             android:id="@+id/nav_data"
             android:icon="@drawable/ic_today"
-            android:title="当日数据"/>
+            android:title="当日数据"
+            android:visible="false"/>
 
         <item
             android:id="@+id/nav_history_data"
