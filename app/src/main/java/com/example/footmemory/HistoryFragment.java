@@ -37,7 +37,7 @@ public class HistoryFragment extends Fragment {
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_fragment, container, false);
-         mbarChart = (BarChart)view.findViewById(R.id.mBarChart);
+        mbarChart = (BarChart)view.findViewById(R.id.mBarChart);
         draw();
         chart = (LineChart) view.findViewById(R.id.chart);
         // 制作7个数据点（沿x坐标轴）
@@ -67,7 +67,9 @@ public class HistoryFragment extends Fragment {
             mbarChart.setDrawBarShadow(false);
             //设置柱状图的数据在上方显示
             mbarChart.setDrawValueAboveBar(true);
-            //设置X轴的位置，默认在上方
+            //mbarChart.setBackgroundColor(Color.WHITE);
+
+        //设置X轴的位置，默认在上方
             XAxis xAxis = mbarChart.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             //不显示纵向分割线
@@ -86,7 +88,7 @@ public class HistoryFragment extends Fragment {
 
         BarDataSet barDataSet =new BarDataSet(yVals1, "用户本周碳排放量");
         barDataSet.setBarSpacePercent(50f);
-        barDataSet.setColor(Color.BLUE);
+        barDataSet.setColor(Color.rgb(0x87,0xce,0xfa));
         ArrayList<String> x =new ArrayList<String>(7);
         for(int i=0;i<7;i++)
         {
@@ -121,7 +123,7 @@ public class HistoryFragment extends Fragment {
 
         // 设置比例图标示，就是那个一组y的value的
         Legend mLegend = mLineChart.getLegend();
-        mLegend.setPosition(LegendPosition.BELOW_CHART_CENTER);
+        mLegend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         mLegend.setForm(LegendForm.CIRCLE);// 样式
         mLegend.setFormSize(15.0f);// 字体
         mLegend.setTextColor(Color.BLUE);// 颜色
@@ -141,18 +143,21 @@ public class HistoryFragment extends Fragment {
         // y轴数据集
         LineDataSet cLineDataSet = new LineDataSet(yc, "用户碳排放量");
         // 用y轴的集合来设置参数
-       //设置线的颜色
-        cLineDataSet.setColor(Color.BLUE);
+        int red = (0xff1493 & 0xff0000) >> 16;
+        int green = (0xff1493 & 0x00ff00) >> 8;
+        int blue = (0xff1493 & 0x0000ff);
+        //设置线的颜色
+        cLineDataSet.setColor(Color.rgb(red,green,blue));
         //设置数据点圆形的颜色
-        cLineDataSet.setCircleColor(Color.BLUE);
+        cLineDataSet.setCircleColor(Color.rgb(red,green,blue));
         //设置填充圆形中间的颜色
-        cLineDataSet.setCircleColorHole(Color.BLUE);
+        cLineDataSet.setCircleColorHole(Color.rgb(red,green,blue));
         //设置折线的宽度
         cLineDataSet.setLineWidth(1f);
         //设置折线点圆点半径
         cLineDataSet.setCircleSize(4f);
         //设置一页最大显示个数为7，超出部分就滑动
-        float ratio = (float)count/(float)6;
+        float ratio = (float)count/(float)31;
         chart.zoom(ratio,1f,0,0);
         //设置从xy轴出来的动画
         chart.animateXY(1500,1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);

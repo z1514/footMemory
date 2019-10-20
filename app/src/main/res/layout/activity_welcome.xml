@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".util.WelcomeActivity">
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:src="@mipmap/welcome"
-    />
+    tools:context=".util.WelcomeActivity"
+    android:background="@mipmap/welcome">
 </androidx.constraintlayout.widget.ConstraintLayout>

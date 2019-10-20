@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     >
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.0"/>
-    <com.github.mikephil.charting.charts.BarChart
+        android:layout_height="wrap_content"
+        android:background="@color/darkturquoise">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:gravity="left"
+            android:text="最近七天的趋势"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"/>
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_marginTop="20dp"
+        android:id="@+id/chart"
+            android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="当月的数据统计"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:gravity="left"
+            />
+        <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/mBarChart"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.0"/>
-</LinearLayout>
+            android:layout_margin="10dp"
+        android:layout_height="500dp"/>
+    </LinearLayout>
+</ScrollView>
