@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment {
         draw();
         chart = (LineChart) view.findViewById(R.id.chart);
         // 制作7个数据点（沿x坐标轴）
-        int count = 30;
+        int count = 7;
         ArrayList<Float> cdata = new ArrayList<Float>();
         ArrayList<Float> wdata = new ArrayList<Float>();
         for (int i = 0; i < count; i++) {
@@ -49,11 +49,7 @@ public class HistoryFragment extends Fragment {
             float val = (float) (Math.random() * 10+50);
             cdata.add(val);
         }
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * 10+200);
-            wdata.add(val);
-        }
-        LineData lineData = makeLineData(30, cdata, Color.RED, Color.GREEN);//设置碳足迹
+        LineData lineData = makeLineData(7, cdata, Color.RED, Color.GREEN);//设置碳足迹
        setChartStyle(chart, lineData, Color.WHITE);
 
         return view;
@@ -79,7 +75,7 @@ public class HistoryFragment extends Fragment {
 
             //模拟数据
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-        for(int i=0;i<7;i++)
+        for(int i=0;i<30;i++)
         {
             float val = (float) (Math.random() * 10+50);
             BarEntry entry = new BarEntry(val,i);
@@ -89,14 +85,20 @@ public class HistoryFragment extends Fragment {
         BarDataSet barDataSet =new BarDataSet(yVals1, "用户本周碳排放量");
         barDataSet.setBarSpacePercent(50f);
         barDataSet.setColor(Color.rgb(0x87,0xce,0xfa));
-        ArrayList<String> x =new ArrayList<String>(7);
-        for(int i=0;i<7;i++)
+        ArrayList<String> x =new ArrayList<String>(30);
+        for(int i=0;i<30;i++)
         {
-            x.add("周"+i);
+            x.add(i+"日");
         }
         BarData barData = new BarData(x,barDataSet);
-
         mbarChart.setData(barData);
+        //设置空白部分所占的比例
+        barDataSet.setBarSpacePercent((float)(10));
+            //设置一页最大显示个数为7，超出部分就滑动
+            // float ratio = (float)30/(float)7;
+            // chart.zoom(ratio,1f,0,0);
+            //设置从xy轴出来的动画
+            mbarChart.animateXY(1500,1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
     }
 
     // 设置chart显示的样式
@@ -131,7 +133,7 @@ public class HistoryFragment extends Fragment {
     private LineData makeLineData(int count,ArrayList<Float> cdata,int ccolor,int wcolor) {
         ArrayList<String> x = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
-            x.add(  (i+1)+"日");
+            x.add("周"+(i+1));
         }
         // y轴的数据
         ArrayList<Entry> yc = new ArrayList<Entry>();
@@ -157,8 +159,8 @@ public class HistoryFragment extends Fragment {
         //设置折线点圆点半径
         cLineDataSet.setCircleSize(4f);
         //设置一页最大显示个数为7，超出部分就滑动
-        float ratio = (float)count/(float)31;
-        chart.zoom(ratio,1f,0,0);
+//         float ratio = (float)count/(float)31;
+//        chart.zoom(ratio,1f,0,0);
         //设置从xy轴出来的动画
         chart.animateXY(1500,1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
         ArrayList<LineDataSet> mLineDataSets = new ArrayList<LineDataSet>();
