@@ -10,7 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
+import com.example.footmemory.db.MyItem;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -29,6 +33,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 
+import org.litepal.LitePal;
+
 import static android.R.attr.x;
 
 public class HistoryFragment extends Fragment {
@@ -40,14 +46,34 @@ public class HistoryFragment extends Fragment {
         mbarChart = (BarChart)view.findViewById(R.id.mBarChart);
         draw();
         chart = (LineChart) view.findViewById(R.id.chart);
+
         // 制作7个数据点（沿x坐标轴）
         int count = 7;
         ArrayList<Float> cdata = new ArrayList<Float>();
         ArrayList<Float> wdata = new ArrayList<Float>();
+        float val[] = new float[7];
+        List<MyItem> myItemList = LitePal.findAll(MyItem.class);
+        Date d = new Date();
+        d.setSeconds(0);
+        d.setMinutes(0);
+        d.setHours(0);
+        for(MyItem item:myItemList)
+        {
+            Date d1 = new Date(item.getTime());
+            d1.setSeconds(0);
+            d1.setMinutes(0);
+            d1.setHours(0);
+
+            if(getDay(d1,d)>=0&&getDay(d1,d)<=6)
+            {
+                val[6-getDay(d1,d)]+=item.getAmount();
+            }
+
+
+        }
         for (int i = 0; i < count; i++) {
 
-            float val = (float) (Math.random() * 10+50);
-            cdata.add(val);
+            cdata.add(val[i]);
         }
         LineData lineData = makeLineData(7, cdata, Color.RED, Color.GREEN);//设置碳足迹
        setChartStyle(chart, lineData, Color.WHITE);
@@ -64,6 +90,8 @@ public class HistoryFragment extends Fragment {
             //设置柱状图的数据在上方显示
             mbarChart.setDrawValueAboveBar(true);
             //mbarChart.setBackgroundColor(Color.WHITE);
+            //mbarChart.setPinchZoom(false);
+            mbarChart.setDrawGridBackground(false);
 
         //设置X轴的位置，默认在上方
             XAxis xAxis = mbarChart.getXAxis();
@@ -71,29 +99,35 @@ public class HistoryFragment extends Fragment {
             //不显示纵向分割线
             xAxis.setDrawGridLines(false);
             //隐藏右边坐标轴
-            mbarChart.getAxisRight().setEnabled(false);
+            //mbarChart.getAxisRight().setEnabled(false);
 
             //模拟数据
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        List<MyItem> myItemList = LitePal.findAll(MyItem.class);
+        float val[] = new float[31];
+        for(MyItem item:myItemList)
+        {
+            Date d = new Date(item.getTime());
+            val[d.getDate()-1]+=item.getAmount();
+        }
         for(int i=0;i<30;i++)
         {
-            float val = (float) (Math.random() * 10+50);
-            BarEntry entry = new BarEntry(val,i);
+            BarEntry entry = new BarEntry(val[i],i);
             yVals1.add(entry);
         }
 
-        BarDataSet barDataSet =new BarDataSet(yVals1, "用户本周碳排放量");
-        barDataSet.setBarSpacePercent(50f);
-        barDataSet.setColor(Color.rgb(0x87,0xce,0xfa));
-        ArrayList<String> x =new ArrayList<String>(30);
-        for(int i=0;i<30;i++)
+        BarDataSet barDataSet =new BarDataSet(yVals1, "一个月碳排放量");
+        //barDataSet.setBarSpacePercent(50f);
+        barDataSet.setColor(Color.rgb(0xff,0x14,0x93));
+        ArrayList<String> x =new ArrayList<String>(31);
+        for(int i=0;i<31;i++)
         {
-            x.add(i+"日");
+            x.add(i+1+"日");
         }
         BarData barData = new BarData(x,barDataSet);
         mbarChart.setData(barData);
         //设置空白部分所占的比例
-        barDataSet.setBarSpacePercent((float)(10));
+        barDataSet.setBarSpacePercent((float)(70));
             //设置一页最大显示个数为7，超出部分就滑动
             // float ratio = (float)30/(float)7;
             // chart.zoom(ratio,1f,0,0);
@@ -133,7 +167,7 @@ public class HistoryFragment extends Fragment {
     private LineData makeLineData(int count,ArrayList<Float> cdata,int ccolor,int wcolor) {
         ArrayList<String> x = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
-            x.add("周"+(i+1));
+            x.add(""+(i+1));
         }
         // y轴的数据
         ArrayList<Entry> yc = new ArrayList<Entry>();
@@ -164,10 +198,25 @@ public class HistoryFragment extends Fragment {
         //设置从xy轴出来的动画
         chart.animateXY(1500,1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
         ArrayList<LineDataSet> mLineDataSets = new ArrayList<LineDataSet>();
+        //曲线图
+        cLineDataSet.setDrawCubic(true);
+        //填充色
+        cLineDataSet.setDrawFilled(true);
+        cLineDataSet.setFillColor(Color.rgb(0x7f,0xff,0x00));
         mLineDataSets.add(cLineDataSet);
         LineData mLineData = new LineData(x, mLineDataSets);
         return mLineData;
     }//end function makeData
+
+    public static int getDay(Date d1,Date d2)
+    {
+        Calendar cld = Calendar.getInstance();
+        cld.setTime(d1);
+        int day1 = cld.get(Calendar.DAY_OF_YEAR);
+        cld.setTime(d2);
+        int day2 = cld.get(Calendar.DAY_OF_YEAR);
+        return day2 -day1;
+    }
 
 
 
