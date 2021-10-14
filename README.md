@@ -27,9 +27,3 @@ This page is used to display carbon footprint in a week and a month. Users can s
 
 <img src="pics/one_weeks.png" width=30%>
 <img src="pics/one_month.png" width=30%>
-
-# License
-
-[![](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
-
-This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/)
