@@ -7,7 +7,7 @@ Every person will generate carbon dioxide and greenhouse gases in their life eve
 The app is achieved by **Java** and **Android Studio**. 
 # Samples Showcase
 <img src="pics/logo.png" width=20%>
-
+<img src="pics/sidebar.png" width=30%>
 **Everyday Footprint Record Page**
 
 Used to show what activities users do today and how much carbon footprint is generated. For example, in this sample page, the user eats one unit of chicken and one unit of mutton, so the corrosponding carbon footprint is 21.40kg. 
@@ -22,7 +22,9 @@ Calculator part provided the relationships between activities and carbon footpri
 
 **Historical Data**
 
-<img src="pics/one_week.png" width=30%>
+This page is used to display carbon footprint in a week and in a month. Users can see their changes directly, so it will help users build up confidence to lead a low carbon life. 
+
+<img src="pics/one_weeks.png" width=30%>
 <img src="pics/one_month.png" width=30%>
 
 # License
