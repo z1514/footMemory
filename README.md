@@ -11,7 +11,9 @@ The app is achieved by **Java**, **Sqlite** and **Android Studio**. I built this
 # How to deploy
 First, clone the project into your device
 ```git clone https://github.com/z1514/footMemory.git```
-Then use Android Studio to load the project and build it. The Android Studio will build it automatically using gradle.
+
+Then use Android Studio to load the project and build it. 
+The Android Studio will build it automatically using gradle.
 
 # Functions
 **Everyday Footprint Record**
