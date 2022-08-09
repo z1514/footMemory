@@ -15,15 +15,21 @@ First, clone the project into your device
 Then use Android Studio to load the project and build it. 
 The Android Studio will build it automatically using gradle.
 
-# Functions
-**Everyday Footprint Record**
+# Features
+- Search for footprint for specific activities.
+- Record daily carbon footprint.
+- Calculate total footprint everyday.
+- Show historical footprint.
+- Display visualization charts for recent carbon footprint based on day, week and month.
 
-Used to show what activities users do today and how much carbon footprint is generated.
+# TODO
+- [x] Set up Android Environment.
+- [x] Set up Android VM.
+- [x] Build main Activity to manage all of the states.
+- [x] Integrate SQLite as a mobile app database.
+- [x] Design data model for footprint.
+- [x] Implement footprint unit query list in the app.
+- [x] Implement calculator of carbon footprint.
+- [x] Develop history activity and Java logic to show historical data.
+- [x] Integrate MPCharts to visulize historical data for users to show their improvement. 
 
-**Calculator Data**
-
-The calculator part provided the relationships between activities and carbon footprint.
-
-**Historical Data**
-
-This page is used to display carbon footprint in a week and a month. Users can see their changes directly, so it will help users build up the confidence to lead a low carbon life. 
